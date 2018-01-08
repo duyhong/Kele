@@ -18,7 +18,7 @@ class Kele
 
   def get_me
     p @auth_token
-    json = HTTParty.get("#{@base_url}/users/me", {header: {"authorization" => @auth_token}})
+    json = HTTParty.get("#{@base_url}/users/me", {headers: {"authorization" => @auth_token}})
     get_body = JSON.parse(json.body)
   end
 end
