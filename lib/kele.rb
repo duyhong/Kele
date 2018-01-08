@@ -1,4 +1,7 @@
 require "httparty"
+require 'json'
+require 'rubygems'
+require 'base64'
 
 class Kele
   def initialize(email, password)
@@ -11,6 +14,12 @@ class Kele
       # raise some error
       puts "email or password is incorrect. Please try again."
     end
+  end
+
+  def get_me
+    p @auth_token
+    json = HTTParty.get("#{@base_url}/users/me", {header: {"authorization" => @auth_token}})
+    get_body = JSON.parse(json.body)
   end
 end
 
