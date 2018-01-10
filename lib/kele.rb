@@ -1,7 +1,5 @@
 require "httparty"
 require 'json'
-require 'rubygems'
-require 'base64'
 
 class Kele
   def initialize(email, password)
@@ -17,9 +15,13 @@ class Kele
   end
 
   def get_me
-    p @auth_token
     json = HTTParty.get("#{@base_url}/users/me", {headers: {"authorization" => @auth_token}})
-    get_body = JSON.parse(json.body)
+    @get_body = JSON.parse(json.body)
+  end
+
+  def get_mentor_availability(mentor_id)
+    # @mentor_id = @get_body["current_enrollment"]["mentor_id"]
+    mentor_availability = HTTParty.get("#{@base_url}/mentors/#{mentor_id}/student_availability").body
   end
 end
 
