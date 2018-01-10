@@ -10,18 +10,20 @@ class Kele
       @auth_token = response["auth_token"]
     else
       # raise some error
-      puts "email or password is incorrect. Please try again."
+      raise "email or password is incorrect. Please try again."
     end
   end
 
   def get_me
-    json = HTTParty.get("#{@base_url}/users/me", {headers: {"authorization" => @auth_token}})
-    @get_body = JSON.parse(json.body)
+    response = HTTParty.get("#{@base_url}/users/me", {headers: {"authorization" => @auth_token}})
+    @result = JSON.parse(response.body)
   end
 
   def get_mentor_availability(mentor_id)
+    @student_id = @result["id"]
     # @mentor_id = @get_body["current_enrollment"]["mentor_id"]
-    mentor_availability = HTTParty.get("#{@base_url}/mentors/#{mentor_id}/student_availability").body
+    response = HTTParty.get("#{@base_url}/mentors/#{mentor_id}/student_availability", headers: {"authorization" => @auth_token}, body: {"id" => @student_id})
+    JSON.parse(response.body)
   end
 end
 
