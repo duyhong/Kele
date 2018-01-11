@@ -27,6 +27,22 @@ class Kele
     response = HTTParty.get("#{@base_url}/mentors/#{mentor_id}/student_availability", headers: {"authorization" => @auth_token}, body: {"id" => @student_id})
     JSON.parse(response.body)
   end
+
+  def get_messages(*args)
+    if args.length == 1
+      page_number = args
+      response = HTTParty.get("#{@base_url}/message_threads", headers: {"authorization" => @auth_token}, body: {"page" => page_number})
+    elsif args.length == 0
+      response = HTTParty.get("#{@base_url}/message_threads", headers: {"authorization" => @auth_token})
+    else
+      raise ArgumentError, "Too many arguments. Only zero or one argument is accepted."
+    end
+    JSON.parse(response.body)
+  end
+
+  def create_message
+    response = HTTParty.post("#{@base_url}/messages", headers: {"authorization" => @auth_token}, body: {"sender" => "duy.hong@ymail.com", "recipient_id" => 2299843, "subject" => "Test Checkpoint 6", "stripped-text" => "Tests sending a message."})
+  end
 end
 
 # To work around SSL certificate issue
