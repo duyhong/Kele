@@ -1,5 +1,7 @@
 require "httparty"
 require 'json'
+require './lib/roadmap'
+include KeleHelper
 
 class Kele
   def initialize(email, password)
@@ -23,16 +25,6 @@ class Kele
     @student_id = @result["id"]
     # @mentor_id = @result["current_enrollment"]["mentor_id"]
     response = HTTParty.get("#{@base_url}/mentors/#{mentor_id}/student_availability", headers: {"authorization" => @auth_token}, body: {"id" => @student_id})
-    JSON.parse(response.body)
-  end
-
-  def get_roadmap(roadmap_id)
-    response = HTTParty.get("#{@base_url}/roadmaps/#{roadmap_id}", {headers: {"authorization" => @auth_token}})
-    JSON.parse(response.body)
-  end
-
-  def get_checkpoint(checkpoint_id)
-    response = HTTParty.get("#{@base_url}/checkpoints/#{checkpoint_id}", {headers: {"authorization" => @auth_token}})
     JSON.parse(response.body)
   end
 end
