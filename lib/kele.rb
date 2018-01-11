@@ -43,6 +43,11 @@ class Kele
   def create_message
     response = HTTParty.post("#{@base_url}/messages", headers: {"authorization" => @auth_token}, body: {"sender" => "duy.hong@ymail.com", "recipient_id" => 2299843, "subject" => "Test Checkpoint 6", "stripped-text" => "Tests sending a message."})
   end
+
+    def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment)
+      @enrollment_id = @result["current_enrollment"]["id"]
+      response = HTTParty.post("#{@base_url}/checkpoint_submissions", headers: {"authorization" => @auth_token}, body: {"checkpoint_id": checkpoint_id, "comment": comment, "enrollment_id": @enrollment_id, "assignment_branch": assignment_branch, "assignment_commit_link": assignment_commit_link})
+  end
 end
 
 # To work around SSL certificate issue
