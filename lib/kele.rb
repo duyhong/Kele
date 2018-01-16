@@ -1,7 +1,7 @@
 require "httparty"
 require 'json'
 require './lib/roadmap'
-include KeleHelper
+include Roadmap
 
 class Kele
   def initialize(email, password)
